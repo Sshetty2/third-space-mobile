@@ -1,10 +1,10 @@
-import { Box } from "@/components/ui/box"
-import { Text } from "@/components/ui/text"
-import { Divider } from "@/components/ui/divider"
-import { VStack } from "@/components/ui/vstack"
+import { Box } from '@/components/ui/box';
+import { Text } from '@/components/ui/text';
+import { Divider } from '@/components/ui/divider';
+import { VStack } from '@/components/ui/vstack';
 import EditScreenInfo from '@/components/EditScreenInfo';
 
-export default function TabOneScreen() {
+export default function TabOneScreen () {
   return (
     <Box className="flex-1 items-center justify-center">
       <VStack space="md">
