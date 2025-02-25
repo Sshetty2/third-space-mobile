@@ -7,31 +7,32 @@ import { setFlushStyles } from '@gluestack-ui/nativewind-utils/flush';
 import { script } from './script';
 
 const variableStyleTagId = 'nativewind-style';
+
 const createStyle = (styleTagId: string) => {
   const style = document.createElement('style');
   style.id = styleTagId;
   style.appendChild(document.createTextNode(''));
+
   return style;
 };
 
-export const useSafeLayoutEffect =
-  typeof window !== 'undefined' ? useLayoutEffect : useEffect;
+export const useSafeLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
-export function GluestackUIProvider({
+export function GluestackUIProvider ({
   mode = 'light',
   ...props
 }: {
   mode?: 'light' | 'dark' | 'system';
   children?: React.ReactNode;
 }) {
-  let cssVariablesWithMode = ``;
-  Object.keys(config).forEach((configKey) => {
-    cssVariablesWithMode +=
-      configKey === 'dark' ? `\n .dark {\n ` : `\n:root {\n`;
+  let cssVariablesWithMode = '';
+  Object.keys(config).forEach(configKey => {
+    cssVariablesWithMode += configKey === 'dark' ? '\n .dark {\n ' : '\n:root {\n';
     const cssVariables = Object.keys(
       config[configKey as keyof typeof config]
     ).reduce((acc: string, curr: string) => {
       acc += `${curr}:${config[configKey as keyof typeof config][curr]}; `;
+
       return acc;
     }, '');
     cssVariablesWithMode += `${cssVariables} \n}`;
@@ -46,6 +47,7 @@ export function GluestackUIProvider({
   useSafeLayoutEffect(() => {
     if (mode !== 'system') {
       const documentElement = document.documentElement;
+
       if (documentElement) {
         documentElement.classList.add(mode);
         documentElement.classList.remove(mode === 'light' ? 'dark' : 'light');
@@ -55,7 +57,9 @@ export function GluestackUIProvider({
   }, [mode]);
 
   useSafeLayoutEffect(() => {
-    if (mode !== 'system') return;
+    if (mode !== 'system') {
+      return;
+    }
     const media = window.matchMedia('(prefers-color-scheme: dark)');
 
     media.addListener(handleMediaQuery);
@@ -66,13 +70,18 @@ export function GluestackUIProvider({
   useSafeLayoutEffect(() => {
     if (typeof window !== 'undefined') {
       const documentElement = document.documentElement;
+
       if (documentElement) {
         const head = documentElement.querySelector('head');
         let style = head?.querySelector(`[id='${variableStyleTagId}']`);
+
         if (!style) {
           style = createStyle(variableStyleTagId);
           style.innerHTML = cssVariablesWithMode;
-          if (head) head.appendChild(style);
+
+          if (head) {
+            head.appendChild(style);
+          }
         }
       }
     }
@@ -82,9 +91,7 @@ export function GluestackUIProvider({
     <>
       <script
         suppressHydrationWarning
-        dangerouslySetInnerHTML={{
-          __html: `(${script.toString()})('${mode}')`,
-        }}
+        dangerouslySetInnerHTML={{ __html: `(${script.toString()})('${mode}')` }}
       />
       <OverlayProvider>
         <ToastProvider>{props.children}</ToastProvider>

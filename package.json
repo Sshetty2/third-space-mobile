@@ -4,9 +4,9 @@
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",
-    "android": "DARK_MODE=media expo start --android",
-    "ios": "DARK_MODE=media expo start --ios",
-    "web": "DARK_MODE=media expo start --web",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
     "test": "jest --watchAll"
   },
   "jest": {
@@ -14,12 +14,17 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^14.0.2",
+    "@gluestack-ui/button": "^1.0.8",
     "@gluestack-ui/divider": "^0.1.10",
+    "@gluestack-ui/form-control": "^0.1.19",
     "@gluestack-ui/icon": "^0.1.25",
+    "@gluestack-ui/input": "^0.1.32",
     "@gluestack-ui/nativewind-utils": "^1.0.26",
     "@gluestack-ui/overlay": "^0.1.16",
     "@gluestack-ui/toast": "^1.0.8",
+    "@react-native-async-storage/async-storage": "^2.1.1",
     "@react-navigation/native": "^7.0.14",
+    "@supabase/supabase-js": "^2.48.1",
     "babel-plugin-module-resolver": "^5.0.2",
     "expo": "~52.0.31",
     "expo-font": "~13.0.3",
@@ -38,6 +43,7 @@
     "react-native-safe-area-context": "^5.2.0",
     "react-native-screens": "~4.4.0",
     "react-native-svg": "^15.2.0",
+    "react-native-url-polyfill": "^2.0.0",
     "react-native-web": "~0.19.13",
     "tailwindcss": "^3.4.17"
   },

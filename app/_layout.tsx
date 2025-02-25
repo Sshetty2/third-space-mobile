@@ -6,9 +6,15 @@ import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
+import { useColorScheme } from '@/components/useColorScheme';
 import 'react-native-reanimated';
 
-import { useColorScheme } from '@/components/useColorScheme';
+const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL;
+const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY;
+
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error('Supabase URL or anon key is not set');
+}
 
 export {
 
@@ -18,7 +24,7 @@ export {
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: '(tabs)'
+  initialRouteName: 'login'
 };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -30,6 +36,7 @@ export default function RootLayout () {
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     ...FontAwesome.font
   });
+  const colorScheme = useColorScheme();
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
@@ -48,7 +55,18 @@ export default function RootLayout () {
     return null;
   }
 
-  return <GluestackUIProvider mode="light"><RootLayoutNav /></GluestackUIProvider>;
+  return (
+    <GluestackUIProvider mode="light">
+      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+
+        <Stack>
+          <Stack.Screen name="login" options={{ headerShown: false }} />
+        </Stack>
+      </ThemeProvider>
+    </GluestackUIProvider>
+  );
+
+  // return <GluestackUIProvider mode="light"><RootLayoutNav /></GluestackUIProvider>;
 }
 
 function RootLayoutNav () {
